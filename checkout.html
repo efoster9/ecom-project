@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkout</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="#">Logo</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="login.html">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="registration.html">Register</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="products.html">Products</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="checkout.html">Checkout</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="confirmation.html">Confirmation</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container mt-5">
+      <h1>Checkout</h1>
+      <div id="cart-summary">
+        <!-- Cart summary will be dynamically inserted here -->
+      </div>
+      <form id="checkout-form">
+        <h2>Login</h2>
+        <div class="form-group">
+          <label for="email"
+            >Email address <span class="text-danger">*</span></label
+          >
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            placeholder="Enter your email"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="password"
+            >Password <span class="text-danger">*</span></label
+          >
+          <input
+            type="password"
+            class="form-control"
+            id="password"
+            placeholder="Enter your password"
+            required
+          />
+        </div>
+        <h2>Shipping Address</h2>
+        <div class="form-group">
+          <label for="address"
+            >Address <span class="text-danger">*</span></label
+          >
+          <input
+            type="text"
+            class="form-control"
+            id="address"
+            placeholder="Enter your address"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="apartment">Apartment Number</label>
+          <input
+            type="text"
+            class="form-control"
+            id="apartment"
+            placeholder="Enter your apartment number (optional)"
+          />
+        </div>
+        <div class="form-group">
+          <label for="city">City <span class="text-danger">*</span></label>
+          <input
+            type="text"
+            class="form-control"
+            id="city"
+            placeholder="Enter your city"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="state">State <span class="text-danger">*</span></label>
+          <select class="form-control" id="state" required>
+            <option value="">Select your state</option>
+            <option value="AL">AL</option>
+            <option value="AK">AK</option>
+            <option value="AZ">AZ</option>
+            <option value="AR">AR</option>
+            <option value="CA">CA</option>
+            <option value="CO">CO</option>
+            <option value="CT">CT</option>
+            <option value="DE">DE</option>
+            <option value="FL">FL</option>
+            <option value="GA">GA</option>
+            <option value="HI">HI</option>
+            <option value="ID">ID</option>
+            <option value="IL">IL</option>
+            <option value="IN">IN</option>
+            <option value="IA">IA</option>
+            <option value="KS">KS</option>
+            <option value="KY">KY</option>
+            <option value="LA">LA</option>
+            <option value="ME">ME</option>
+            <option value="MD">MD</option>
+            <option value="MA">MA</option>
+            <option value="MI">MI</option>
+            <option value="MN">MN</option>
+            <option value="MS">MS</option>
+            <option value="MO">MO</option>
+            <option value="MT">MT</option>
+            <option value="NE">NE</option>
+            <option value="NV">NV</option>
+            <option value="NH">NH</option>
+            <option value="NJ">NJ</option>
+            <option value="NM">NM</option>
+            <option value="NY">NY</option>
+            <option value="NC">NC</option>
+            <option value="ND">ND</option>
+            <option value="OH">OH</option>
+            <option value="OK">OK</option>
+            <option value="OR">OR</option>
+            <option value="PA">PA</option>
+            <option value="RI">RI</option>
+            <option value="SC">SC</option>
+            <option value="SD">SD</option>
+            <option value="TN">TN</option>
+            <option value="TX">TX</option>
+            <option value="UT">UT</option>
+            <option value="VT">VT</option>
+            <option value="VA">VA</option>
+            <option value="WA">WA</option>
+            <option value="WV">WV</option>
+            <option value="WI">WI</option>
+            <option value="WY">WY</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="zip">Zip Code <span class="text-danger">*</span></label>
+          <input
+            type="text"
+            class="form-control"
+            id="zip"
+            placeholder="Enter your zip code"
+            required
+          />
+        </div>
+        <div id="error-message" class="text-danger"></div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const cartItems = [];
+        for (const [key, value] of urlParams.entries()) {
+          if (key === "id") {
+            cartItems.push({
+              id: value,
+              name: urlParams.get("name"),
+              price: parseFloat(urlParams.get("price")),
+              quantity: parseInt(urlParams.get("quantity")),
+            });
+          }
+        }
+
+        const cartSummary = document.getElementById("cart-summary");
+        let total = 0;
+        cartItems.forEach((item) => {
+          total += item.price * item.quantity;
+          const cartItem = `
+                    <div class="cart-item">
+                        <h5>${item.name}</h5>
+                        <p>$${item.price.toFixed(2)} x ${item.quantity}</p>
+                    </div>
+                `;
+          cartSummary.insertAdjacentHTML("beforeend", cartItem);
+        });
+
+        const tax = total * 0.15;
+        const totalWithTax = total + tax;
+        const totalSummary = `
+                <div class="total-summary">
+                    <p>Subtotal: $${total.toFixed(2)}</p>
+                    <p>Tax (15%): $${tax.toFixed(2)}</p>
+                    <p>Total: $${totalWithTax.toFixed(2)}</p>
+                </div>
+            `;
+        cartSummary.insertAdjacentHTML("beforeend", totalSummary);
+
+        document
+          .getElementById("checkout-form")
+          .addEventListener("submit", function (event) {
+            event.preventDefault();
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const address = document.getElementById("address").value;
+            const apartment = document.getElementById("apartment").value;
+            const city = document.getElementById("city").value;
+            const state = document.getElementById("state").value;
+            const zip = document.getElementById("zip").value;
+
+            fetch("users.json")
+              .then((response) => response.json())
+              .then((users) => {
+                const user = users.find(
+                  (user) => user.email === email && user.password === password
+                );
+                if (user) {
+                  const orderSummary = {
+                    cartItems: JSON.stringify(cartItems),
+                    total: totalWithTax,
+                    email,
+                    address,
+                    apartment,
+                    city,
+                    state,
+                    zip,
+                  };
+
+                  const orderSummaryQuery = new URLSearchParams(
+                    orderSummary
+                  ).toString();
+                  window.location.href = `confirmation.html?${orderSummaryQuery}`;
+                } else {
+                  document.getElementById("error-message").textContent =
+                    "Invalid email or password.";
+                }
+              })
+              .catch((error) => {
+                console.error("Error fetching users:", error);
+                document.getElementById("error-message").textContent =
+                  "An error occurred. Please try again later.";
+              });
+          });
+      });
+    </script>
+  </body>
+</html>

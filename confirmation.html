@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order Confirmation</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="#">Logo</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="login.html">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="registration.html">Register</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="products.html">Products</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="checkout.html">Checkout</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="confirmation.html">Confirmation</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container mt-5">
+      <h1>Order Confirmation</h1>
+      <div id="order-summary">
+        <!-- Order summary will be dynamically inserted here -->
+      </div>
+      <p>
+        Thank you for your business! Your order will be shipped within 3-5
+        business days.
+      </p>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const cartItems = JSON.parse(urlParams.get("cartItems"));
+        const total = parseFloat(urlParams.get("total"));
+        const email = urlParams.get("email");
+        const address = urlParams.get("address");
+        const city = urlParams.get("city");
+        const state = urlParams.get("state");
+        const zip = urlParams.get("zip");
+
+        const orderSummary = document.getElementById("order-summary");
+        cartItems.forEach((item) => {
+          const cartItem = `
+                    <div class="cart-item">
+                        <h5>${item.name}</h5>
+                        <p>$${item.price.toFixed(2)} x ${item.quantity}</p>
+                    </div>
+                `;
+          orderSummary.insertAdjacentHTML("beforeend", cartItem);
+        });
+
+        const totalSummary = `
+                <div class="total-summary">
+                    <p>Total: $${total.toFixed(2)}</p>
+                </div>
+                <div class="shipping-address">
+                    <h5>Shipping Address</h5>
+                    <p>${address}, ${city}, ${state}, ${zip}</p>
+                </div>
+                <div class="email">
+                    <h5>Email</h5>
+                    <p>${email}</p>
+                </div>
+            `;
+        orderSummary.insertAdjacentHTML("beforeend", totalSummary);
+      });
+    </script>
+  </body>
+</html>

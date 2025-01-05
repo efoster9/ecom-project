@@ -187,6 +187,21 @@
         delete cart[productId];
         renderCart();
       }
+
+      document
+        .getElementById("checkout-button")
+        .addEventListener("click", function () {
+          const cartItems = Object.values(cart);
+          const cartQuery = cartItems
+            .map(
+              (item) =>
+                `id=${item.id}&name=${encodeURIComponent(item.name)}&price=${
+                  item.price
+                }&quantity=${item.quantity}`
+            )
+            .join("&");
+          window.location.href = `checkout.html?${cartQuery}`;
+        });
     </script>
   </body>
 </html>
