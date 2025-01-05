@@ -45,11 +45,27 @@
     </nav>
 
     <div class="container mt-5">
+      <h2>Cart</h2>
+      <div id="cart-list">
+        <!-- Cart items will be dynamically inserted here -->
+      </div>
+      <button class="btn btn-primary" id="checkout-button">Checkout</button>
+    </div>
+
+    <div class="container mt-5">
       <h1>Products</h1>
       <div class="row" id="product-list">
         <!-- Products will be dynamically inserted here -->
       </div>
     </div>
+
+    <footer class="bg-light text-center py-3">
+      <p>&copy; 2023 E-commerce Website. All rights reserved.</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script>
       document.addEventListener("DOMContentLoaded", function () {
@@ -76,16 +92,101 @@
                                         <p class="card-text">${
                                           product.description
                                         }</p>
-                                        <a href="#" class="btn btn-primary">Add to Cart</a>
+                                        <button class="btn btn-primary add-to-cart" data-id="${
+                                          product.id
+                                        }">Add to Cart</button>
                                     </div>
                                 </div>
                             </div>
                         `;
               productList.insertAdjacentHTML("beforeend", productCard);
             });
+
+            document.querySelectorAll(".add-to-cart").forEach((button) => {
+              button.addEventListener("click", addToCart);
+            });
           })
           .catch((error) => console.error("Error fetching products:", error));
       });
+
+      const cart = {};
+
+      function addToCart(event) {
+        const productId = event.target.getAttribute("data-id");
+        if (cart[productId]) {
+          cart[productId].quantity += 1;
+        } else {
+          const productCard = event.target.closest(".card");
+          cart[productId] = {
+            id: productId,
+            name: productCard.querySelector(".card-title").textContent,
+            price: parseFloat(
+              productCard
+                .querySelector(".card-text")
+                .textContent.replace("$", "")
+            ),
+            quantity: 1,
+          };
+        }
+        renderCart();
+      }
+
+      function renderCart() {
+        const cartList = document.getElementById("cart-list");
+        cartList.innerHTML = "";
+        Object.values(cart).forEach((item) => {
+          const cartItem = `
+                    <div class="cart-item">
+                        <h5>${item.name}</h5>
+                        <p>$${item.price.toFixed(2)} x ${item.quantity}</p>
+                        <button class="btn btn-secondary increase-quantity" data-id="${
+                          item.id
+                        }">+</button>
+                        <button class="btn btn-secondary decrease-quantity" data-id="${
+                          item.id
+                        }">-</button>
+                        <button class="btn btn-danger remove-from-cart" data-id="${
+                          item.id
+                        }">Remove</button>
+                    </div>
+                `;
+          cartList.insertAdjacentHTML("beforeend", cartItem);
+        });
+
+        document.querySelectorAll(".increase-quantity").forEach((button) => {
+          button.addEventListener("click", increaseQuantity);
+        });
+
+        document.querySelectorAll(".decrease-quantity").forEach((button) => {
+          button.addEventListener("click", decreaseQuantity);
+        });
+
+        document.querySelectorAll(".remove-from-cart").forEach((button) => {
+          button.addEventListener("click", removeFromCart);
+        });
+      }
+
+      function increaseQuantity(event) {
+        const productId = event.target.getAttribute("data-id");
+        cart[productId].quantity += 1;
+        renderCart();
+      }
+
+      function decreaseQuantity(event) {
+        const productId = event.target.getAttribute("data-id");
+        if (cart[productId].quantity > 1) {
+          cart[productId].quantity -= 1;
+        } else {
+          delete cart[productId];
+        }
+        renderCart();
+      }
+
+      function removeFromCart(event) {
+        const productId = event.target.getAttribute("data-id");
+        delete cart[productId];
+        renderCart();
+      }
     </script>
   </body>
 </html>
