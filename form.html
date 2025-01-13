@@ -42,59 +42,13 @@
 
     <div class="container mt-5">
       <form action="checkout.html" method="get">
-        <h2>Cart</h2>
-        <div id="cart-list">
-          <!-- Cart items will be dynamically inserted here -->
-
-          <!-- Card item template start -->
-          <div class="cart-item">
-            <h5>Product 1</h5>
-            <p>$10.99 x 2</p>
-            <input type="hidden" name="id" value="1" />
-            <input type="hidden" name="name" value="Product 1" />
-            <input type="hidden" name="price" value="10.99" />
-            <input type="hidden" name="id" value="2" />
-            <input type="hidden" name="name" value="Product 2" />
-            <input type="hidden" name="price" value="11.99" />
-
-            <button class="btn btn-secondary increase-quantity" data-id="1">
-              +
-            </button>
-            <button class="btn btn-secondary decrease-quantity" data-id="1">
-              -
-            </button>
-            <button class="btn btn-danger remove-from-cart" data-id="1">
-              Remove
-            </button>
-          </div>
-          <!-- Card item template end -->
-        </div>
-        <button class="btn btn-primary" id="checkout-button">Checkout</button>
+        <label for="firstName">First Name</label>
+        <input type="text" name="firstName" value="" /><br />
+        <label for="lastName">Last Name</label>
+        <input type="text" name="lasttName" value="" /><br />
+        <input type="hidden" name="hiddenvalue" value="Secret" />
+        <button type="submit">Submit</button>
       </form>
-    </div>
-
-    <div class="container mt-5">
-      <h1>Products</h1>
-      <div class="row" id="product-list">
-        <!-- Products will be dynamically inserted here -->
-        <div class="col-md-4">
-          <div class="card mb-4">
-            <img
-              src="https://placehold.co/100"
-              class="card-img-top"
-              alt="Product 1"
-            />
-            <div class="card-body">
-              <h5 class="card-title">Product 1</h5>
-              <p class="card-text">$10.99</p>
-              <p class="card-text">Description for product 1</p>
-              <button class="btn btn-primary add-to-cart" data-id="1">
-                Add to Cart
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
 
     <footer class="bg-light text-center py-3">
