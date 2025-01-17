@@ -218,16 +218,15 @@
         const form = document.getElementById('checkout-form');
         const email = document.getElementById('email').value;
         console.log(email);
-        const exists = data.some( user => user.email == email);
+        const exists = data.some( user => user.email == email); //true or false
         console.log(exists);
         if (exists) {
+          
           form.submit();
         } else {
           const errorMessage = document.getElementById('error-message');
           errorMessage.innerHTML = 'User does not exist';
         }
-
-
         });
       }
       });
