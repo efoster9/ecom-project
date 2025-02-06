@@ -76,6 +76,25 @@
       <p>&copy; 2023 E-commerce Website. All rights reserved.</p>
     </footer>
 
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Your code to run since DOM is loaded and ready
+        fetch('users.json')
+          .then((response) => response.json())
+          .then((data) => {
+            const footer = document.querySelector('footer');
+            let footerHTML = '';
+            data.forEach(user => {
+              footerHTML += `<p>${user.name} - ${user.email}</p>`;
+            });
+
+            footer.innerHTML = footerHTML;
+
+          })
+
+      });
+    </script>
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
